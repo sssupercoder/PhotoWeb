@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+        .layui-upload-img {
+            width: 100px;
+            height: 100%;
+            margin: 5px;
+        }
+    </style>
+    <script src="layui/layui.js"></script>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>上传多张图片</legend>
+</fieldset>
+
+<div class="layui-upload">
+    <button type="button" class="layui-btn" id="test2">多图片上传</button>
+    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+        预览图：
+        <div class="layui-upload-list" id="demo2"></div>
+    </blockquote>
+</div>
+<script>
+    // url=window.location.host
+    layui.use(['upload', 'element', 'layer'], function () {
+        var $ = layui.jquery, upload = layui.upload, element = layui.element, layer = layui.layer;
+        //多图片上传
+        upload.render({
+            elem: '#test2'
+            , url: window.location.host+'upload' //此处配置你自己的上传接口即可
+            , multiple: true
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#demo2').append('<img src="' + result + '" alt="' + file.name + '" class="layui-upload-img">')
+                });
+            }
+            , done: function (res) {
+                console.log(res.code)
+                if (res.code == 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                if (res.code > 0) {
+                    return layer.msg('上传成功');
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
