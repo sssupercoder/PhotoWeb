@@ -6,7 +6,7 @@
          version="4.0"
          metadata-complete="true">
     <welcome-file-list>
-        <welcome-file>login.html</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
 
@@ -34,7 +34,7 @@
         <servlet-name>UploadServlet</servlet-name>
         <url-pattern>/upload</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>PhotoGetServlet</servlet-name>
         <servlet-class>com.heshuo.servlet.file.PhotoGetServlet</servlet-class>
@@ -52,6 +52,22 @@
         <servlet-name>PhotoGetByUserServlet</servlet-name>
         <url-pattern>/api/userphoto</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UserInfoServlet</servlet-name>
+        <servlet-class>com.heshuo.servlet.user.UserInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserInfoServlet</servlet-name>
+        <url-pattern>/userinfo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddLove</servlet-name>
+        <servlet-class>com.heshuo.servlet.love.AddLove</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddLove</servlet-name>
+        <url-pattern>/addlove</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
@@ -61,5 +77,21 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
+    <filter>
+        <filter-name>AccessControlFilter</filter-name>
+        <filter-class>com.heshuo.filter.AccessControlFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessControlFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>UserPageFilter</filter-name>
+        <filter-class>com.heshuo.filter.UserPageFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserPageFilter</filter-name>
+        <url-pattern>/mypage.html</url-pattern>
+        <url-pattern>/upload.html</url-pattern>
+    </filter-mapping>
 </web-app>

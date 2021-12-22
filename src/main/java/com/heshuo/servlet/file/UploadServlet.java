@@ -1,13 +1,11 @@
 package com.heshuo.servlet.file;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.heshuo.pojo.User;
 import com.heshuo.service.file.FileService;
 import com.heshuo.service.file.FileServiceImpl;
 import com.heshuo.util.Constants;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -26,9 +24,11 @@ import java.util.List;
  * @Date 2021/12/14 16:47
  * @Version 1.0
  */
+//@CrossOrigin
 public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         // 配置上传参数
         DiskFileItemFactory factory = new DiskFileItemFactory();
         // 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中

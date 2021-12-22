@@ -10,5 +10,5 @@ import java.sql.SQLException;
  */
 public interface LoveDao {
     boolean isLove(Connection connection,int id,String imagePath) throws SQLException;
-    boolean addLove(Connection connection,int id,String imagePath);
+    void addLove(Connection connection,int id,String imagePath) throws SQLException;
 }

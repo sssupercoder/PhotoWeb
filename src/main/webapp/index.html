@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery-3.6.0.js"></script>
+    <style>
+        img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<a href="./mypage.html">我的页面</a>
+<div class="userInfo_noLogin">
+    用户未登录
+    <button><a href="./login.html">登录</a></button>
+</div>
+<div class="userInfo_login">
+</div>
+<ul id="imageList">
+    <img src="" alt="" srcset="">
+</ul>
+<button id="beforePage">上一页</button>
+<button id="afterPage">下一页</button>
+</body>
+<script>
+    var ps = 1
+    var pn = 20
+    var isfirst = true
+    var isLast
+    let URL = 'http://localhost:8080'
+    var isLogin = false
+    $(document).ready(function () {
+            $.ajax({
+                url: URL + '/api/allphoto',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    ps: ps,
+                    pn: pn,
+                },
+                success: function (data) {
+                    isLast = data.isLast
+                    data.list.forEach(imgInfo => {
+                        $('#imageList').append(
+                            '<li class="imgList">\
+                            <img src="http://' + imgInfo[0] + '">\
+                            点赞数:<span>' + imgInfo[1] + '</span>\
+                            是否已经点赞:' + imgInfo[2] + '\
+                            </li>')
+                        if (imgInfo[2] == 'true') {
+                            $('#imageList>li:last-child').append(
+                                '<img class="addLove love" src="./img/love.svg">')
+                        } else {
+                            $('#imageList>li:last-child').append(
+                                '<img class="addLove unlove" src="./img/unlove.svg">')
+                        }
+                    });
+                    if (ps != 1) {
+                        isfirst = false
+                    }
+                    if (isfirst) {
+                        $('#beforePage').attr('disabled', true)
+                    }
+                    if (isLast) {
+                        $('#afterPage').attr('disabled', true)
+                    }
+                },
+                error: function (err) {
+                    if (err.status == 403) {
+                        console.log(err)
+                    } else if (err.status == 422) {
+                        console.log(err)
+                    } else if (err.status == 500) {
+                        console.log(err)
+                    } else {
+                        console.log(err)
+                    }
+                }
+            })
+            $.ajax({
+                url: URL + '/userinfo',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.msg == 'OK') {
+                        isLogin = true
+                        $('.userInfo_login')
+                            .append('<p>用户名:' + data.username + '</p>\
+                                            <p>上次登录的时间:' + timestampToTime(data.lastLoginTime) + '</p>')
+                        $('.userInfo_noLogin').css('display', 'none')
+                    }
+                },
+                error: function (err) {
+                    if (err.status == 403) {
+                        console.log(err)
+                    } else if (err.status == 422) {
+                        console.log(err)
+                    } else if (err.status == 500) {
+                        console.log(err)
+                    } else {
+                        console.log(err)
+                    }
+                }
+            })
+        },
+        $('#imageList').on("click", ".addLove", function () {
+            if ($(this).attr('class') == 'addLove unlove') {
+                let _this = $(this)
+                if (isLogin == true) {
+                    let img = $(this).siblings('img').attr('src').split('/').slice(-1)[0]
+                    $.ajax({
+                        url: URL + '/addlove',
+                        type: 'get',
+                        data: {
+                            'img': img
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.code == 200 && data.msg == "点赞成功") {
+                                _this.attr('class', 'addLove love').attr('src', './img/love.svg')
+                            } else {
+                                alert("点赞失败")
+                            }
+                        },
+                        error: function (err) {
+                            if (err.status == 403) {
+                                console.log(err)
+                            } else if (err.status == 422) {
+                                console.log(err)
+                            } else if (err.status == 500) {
+                                console.log(err)
+                            } else {
+                                console.log(err)
+                            }
+                        }
+                    })
+                }
+            }
+        }),
+
+        $("#afterPage").click(function () {
+            ps += 1;
+            $('#imageList').empty()
+            $.ajax({
+                url: URL + '/api/allphoto',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    ps: ps,
+                    pn: pn,
+                },
+                success: function (data) {
+                    isLast = data.isLast
+                    data.list.forEach(imgInfo => {
+                        $('#imageList').append(
+                            '<li class="imgList">\
+                            <img src="http://' + imgInfo[0] + '">\
+                            点赞数:<span>' + imgInfo[1] + '</span>\
+                            是否已经点赞:' + imgInfo[2] + '\
+                            </li>')
+                        if (imgInfo[2] == 'true') {
+                            $('#imageList>li:last-child').append(
+                                '<img class="addLove love" src="./img/love.svg">')
+                        } else {
+                            $('#imageList>li:last-child').append(
+                                '<img class="addLove unlove" src="./img/unlove.svg">')
+                        }
+                    });
+                    if (ps != 1) {
+                        isfirst = false
+                    }
+                    if (isfirst) {
+                        $('#beforePage').attr('disabled', true)
+                    } else {
+                        $('#beforePage').attr('disabled', false)
+                    }
+                    if (isLast) {
+                        $('#afterPage').attr('disabled', true)
+                    } else {
+                        $('#afterPage').attr('disabled', false)
+                    }
+                },
+                error: function (err) {
+                    if (err.status == 403) {
+                        console.log(err)
+                    } else if (err.status == 422) {
+                        console.log(err)
+                    } else if (err.status == 500) {
+                        console.log(err)
+                    } else {
+                        console.log(err)
+                    }
+                }
+            })
+        }),
+        $("#beforePage").click(function () {
+            ps -= 1;
+            $('#imageList').empty()
+            $.ajax({
+                url: URL + '/api/allphoto',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    ps: ps,
+                    pn: pn,
+                },
+                success: function (data) {
+                    isLast = data.isLast
+                    data.list.forEach(imgInfo => {
+                        $('#imageList').append(
+                            '<li class="imgList">\
+                            <img src="http://' + imgInfo[0] + '">\
+                            点赞数:<span>' + imgInfo[1] + '</span>\
+                            是否已经点赞:' + imgInfo[2] + '\
+                            </li>')
+                        if (imgInfo[2] == 'true') {
+                            $('#imageList>li:last-child').append(
+                                '<img class="addLove love" src="./img/love.svg">')
+                        } else {
+                            $('#imageList>li:last-child').append(
+                                '<img class="addLove unlove" src="./img/unlove.svg">')
+                        }
+                    });
+                    if (ps != 1) {
+                        isfirst = false
+                    } else {
+                        isfirst = true
+                    }
+                    if (isfirst) {
+                        $('#beforePage').attr('disabled', true)
+                    } else {
+                        $('#beforePage').attr('disabled', false)
+                    }
+                    if (isLast) {
+                        $('#afterPage').attr('disabled', true)
+                    } else {
+                        $('#afterPage').attr('disabled', false)
+                    }
+                },
+                error: function (err) {
+                    if (err.status == 403) {
+                        console.log(err)
+                    } else if (err.status == 422) {
+                        console.log(err)
+                    } else if (err.status == 500) {
+                        console.log(err)
+                    } else {
+                        console.log(err)
+                    }
+                }
+            })
+        })
+    )
+
+    //时间戳转换
+    function timestampToTime(timestamp) {
+        //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        var date = new Date(timestamp);
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y + M + D + h + m + s;
+    }
+</script>
+
+</html>

@@ -11,11 +11,12 @@ public class Constants {
     //session
     public final static String USER_SESSION = "userSession";
     //登录成功后的重定向页面
-    public final static String TRUE_LOGIN_REDIRECT = "upload.html";
+    public final static String TRUE_LOGIN_REDIRECT = "index.html";
     //图片相关
     public static final long serialVersionUID = 1L;
     // 上传文件存储目录
-    public static final String UPLOAD_DIRECTORY = "E:" + File.separator + "images";
+//    public static final String UPLOAD_DIRECTORY = "E:" + File.separator + "images";
+    public static final String UPLOAD_DIRECTORY = File.separator + "images";
     //上传文件映射目录
     public static final String IMAGE_PATH = "/images/";
     //映射端口

@@ -27,8 +27,10 @@ public class LoveDaoImpl implements LoveDao {
     }
 
     @Override
-    public boolean addLove(Connection connection, int id, String imagePath) {
+    public void addLove(Connection connection, int id, String imagePath) throws SQLException {
         PreparedStatement preparedStatement = null;
-        return false;
+        String sql = "insert into love values (?,?)";
+        Object[] params = {imagePath, id};
+        BaseDao.execute(connection, sql, params, preparedStatement);
     }
 }

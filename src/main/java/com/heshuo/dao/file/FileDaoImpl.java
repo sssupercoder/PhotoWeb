@@ -3,7 +3,6 @@ package com.heshuo.dao.file;
 import com.heshuo.dao.BaseDao;
 import com.heshuo.dao.love.LoveDao;
 import com.heshuo.dao.love.LoveDaoImpl;
-import com.heshuo.pojo.Love;
 import com.heshuo.pojo.User;
 import com.heshuo.util.Constants;
 
@@ -77,12 +76,11 @@ public class FileDaoImpl implements FileDao {
             User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
             if (user != null) {
                 boolean isLove = love.isLove(connection, user.getId(), resultSet.getString("imagePath"));
-                image.add(InetAddress.getLocalHost().getHostAddress() + IMAGE_PATH + resultSet.getString("imagePath"));
+                image.add(InetAddress.getLocalHost().getHostAddress() + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
                 image.add(String.valueOf(resultSet.getInt("a")));
                 image.add(String.valueOf(isLove));
             } else {
-                System.out.println("test haha");
-                image.add(InetAddress.getLocalHost().getHostAddress() +":"+ PORT + IMAGE_PATH + resultSet.getString("imagePath"));
+                image.add(InetAddress.getLocalHost().getHostAddress() + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
                 image.add(String.valueOf(resultSet.getInt("a")));
                 image.add("false");
             }
@@ -101,7 +99,7 @@ public class FileDaoImpl implements FileDao {
         List<List> image_ALL = new ArrayList<>();
         while (resultSet.next()) {
             List<String> image = new ArrayList<>();
-            image.add(InetAddress.getLocalHost().getHostAddress() +":"+ PORT + IMAGE_PATH + resultSet.getString("imagePath"));
+            image.add(InetAddress.getLocalHost().getHostAddress() + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
             image.add(String.valueOf(resultSet.getInt("a")));
             image_ALL.add(image);
         }

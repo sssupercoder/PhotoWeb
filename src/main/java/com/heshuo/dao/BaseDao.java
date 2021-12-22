@@ -1,9 +1,5 @@
 package com.heshuo.dao;
 
-import org.junit.Test;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -46,7 +42,7 @@ public class BaseDao {
     }
 
     //    公共查找方法
-    public static ResultSet execute(Connection connection,PreparedStatement preparedStatement, String sql, Object[] params, ResultSet resultSet) throws SQLException {
+    public static ResultSet execute(Connection connection, PreparedStatement preparedStatement, String sql, Object[] params, ResultSet resultSet) throws SQLException {
         preparedStatement = connection.prepareStatement(sql);
         for (int i = 0; i < params.length; i++) {
             preparedStatement.setObject(i + 1, params[i]);

@@ -3,7 +3,6 @@ package com.heshuo.dao.user;
 import com.heshuo.pojo.User;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 
 /**
