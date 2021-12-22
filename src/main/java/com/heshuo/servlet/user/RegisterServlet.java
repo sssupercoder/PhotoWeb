@@ -28,7 +28,7 @@ public class RegisterServlet extends HttpServlet {
         if (flag) {
             jsonObject.put("code", "200");
             jsonObject.put("msg", "注册成功");
-            resp.sendRedirect("login.index");
+            resp.sendRedirect("login.html");
         } else {
             jsonObject.put("code", "0");
             jsonObject.put("msg", "注册失败");
