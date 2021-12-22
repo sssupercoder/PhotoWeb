@@ -16,8 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.heshuo.util.Constants.IMAGE_PATH;
-import static com.heshuo.util.Constants.PORT;
+import static com.heshuo.util.Constants.*;
 
 /**
  * @Author shoke
@@ -76,11 +75,11 @@ public class FileDaoImpl implements FileDao {
             User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
             if (user != null) {
                 boolean isLove = love.isLove(connection, user.getId(), resultSet.getString("imagePath"));
-                image.add(InetAddress.getLocalHost().getHostAddress() + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
+                image.add(REAL_IP + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
                 image.add(String.valueOf(resultSet.getInt("a")));
                 image.add(String.valueOf(isLove));
             } else {
-                image.add(InetAddress.getLocalHost().getHostAddress() + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
+                image.add(REAL_IP + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
                 image.add(String.valueOf(resultSet.getInt("a")));
                 image.add("false");
             }
@@ -99,7 +98,7 @@ public class FileDaoImpl implements FileDao {
         List<List> image_ALL = new ArrayList<>();
         while (resultSet.next()) {
             List<String> image = new ArrayList<>();
-            image.add(InetAddress.getLocalHost().getHostAddress() + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
+            image.add(REAL_IP + ":" + PORT + IMAGE_PATH + resultSet.getString("imagePath"));
             image.add(String.valueOf(resultSet.getInt("a")));
             image_ALL.add(image);
         }

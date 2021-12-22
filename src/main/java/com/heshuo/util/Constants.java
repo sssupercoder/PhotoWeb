@@ -20,6 +20,7 @@ public class Constants {
     //上传文件映射目录
     public static final String IMAGE_PATH = "/images/";
     //映射端口
+    public static final String REAL_IP="http://47.98.116.234";
     public static final int PORT=8080;
     // 上传配置
     // 设置内存临界值
