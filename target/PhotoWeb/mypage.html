@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="demo2.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
     <script src="./jquery-3.6.0.js"></script>
     <style>
         img {
@@ -21,14 +23,14 @@
 </head>
 
 <body>
-<a href="./upload.html">上传图片</a>
-<div class="userInfo_login">
-</div>
-<ul id="imageList">
-    <img src="" alt="" srcset="">
-</ul>
-<button id="beforePage">上一页</button>
-<button id="afterPage">下一页</button>
+    <a href="./upload.html">上传图片</a>
+    <div class="userInfo_login">
+    </div>
+    <ul id="imageList">
+        <img src="" alt="" srcset="">
+    </ul>
+    <button id="beforePage">上一页</button>
+    <button id="afterPage">下一页</button>
 </body>
 
 </body>
@@ -79,7 +81,7 @@
                 data.list.forEach(imgInfo => {
                     $('#imageList').append(
                         '<li class="imgList">\
-                            <img src="' + imgInfo[0] + '">\
+                            <img src="http://' + imgInfo[0] + '">\
                             点赞数:<span>' + imgInfo[1] + '</span>\
                             </li>')
                 });
@@ -108,52 +110,52 @@
 
 
         $("#afterPage").click(function () {
-            ps += 1;
-            $('#imageList').empty()
-            $.ajax({
-                url: URL + '/api/userphoto',
-                type: 'get',
-                dataType: 'json',
-                data: {
-                    ps: ps,
-                    pn: pn,
-                },
-                success: function (data) {
-                    isLast = data.isLast
-                    data.list.forEach(imgInfo => {
-                        $('#imageList').append(
-                            '<li class="imgList">\
-                        <img src="' + imgInfo[0] + '">\
+                ps += 1;
+                $('#imageList').empty()
+                $.ajax({
+                    url: URL + '/api/userphoto',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        ps: ps,
+                        pn: pn,
+                    },
+                    success: function (data) {
+                        isLast = data.isLast
+                        data.list.forEach(imgInfo => {
+                            $('#imageList').append(
+                                '<li class="imgList">\
+                            <img src="http://' + imgInfo[0] + '">\
                             点赞数:<span>' + imgInfo[1] + '</span>\
                             </li>')
-                    });
-                    if (ps != 1) {
-                        isfirst = false
+                        });
+                        if (ps != 1) {
+                            isfirst = false
+                        }
+                        if (isfirst) {
+                            $('#beforePage').attr('disabled', true)
+                        } else {
+                            $('#beforePage').attr('disabled', false)
+                        }
+                        if (isLast) {
+                            $('#afterPage').attr('disabled', true)
+                        } else {
+                            $('#afterPage').attr('disabled', false)
+                        }
+                    },
+                    error: function (err) {
+                        if (err.status == 403) {
+                            console.log(err)
+                        } else if (err.status == 422) {
+                            console.log(err)
+                        } else if (err.status == 500) {
+                            console.log(err)
+                        } else {
+                            console.log(err)
+                        }
                     }
-                    if (isfirst) {
-                        $('#beforePage').attr('disabled', true)
-                    } else {
-                        $('#beforePage').attr('disabled', false)
-                    }
-                    if (isLast) {
-                        $('#afterPage').attr('disabled', true)
-                    } else {
-                        $('#afterPage').attr('disabled', false)
-                    }
-                },
-                error: function (err) {
-                    if (err.status == 403) {
-                        console.log(err)
-                    } else if (err.status == 422) {
-                        console.log(err)
-                    } else if (err.status == 500) {
-                        console.log(err)
-                    } else {
-                        console.log(err)
-                    }
-                }
-            })
-        }),
+                })
+            }),
             $("#beforePage").click(function () {
                 ps -= 1;
                 $('#imageList').empty()
@@ -170,7 +172,7 @@
                         data.list.forEach(imgInfo => {
                             $('#imageList').append(
                                 '<li class="imgList">\
-                            <img src="' + imgInfo[0] + '">\
+                            <img src="http://' + imgInfo[0] + '">\
                             点赞数:<span>' + imgInfo[1] + '</span>\
                             </li>')
                         });
@@ -203,7 +205,19 @@
                     }
                 })
             })
+
+
     })
+
+
+
+
+
+
+
+
+
+
 
     //时间戳转换
     function timestampToTime(timestamp) {

@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="demo1.css">
     <title>Title</title>
 </head>
 <body>
-<form action="/register" method="post">
-    username:<input type="text" name="username">
-    password:<input type="password" name="password">
-    <input type="submit">
+<form action="/register" method="post" class="form-wrapper1">
+    <div class="input-wrapper1">
+        <input type="text" name="username" placeholder="用户名" class="border-item1" autocomplete="off">
+    </div>
+    
+    <div class="border-wrapper1">
+        <input type="password" name="password" placeholder="密码" class="border-item1" autocomplete="off">
+    </div>
+    <div class="action">
+        <input type="submit" class="btn">
+    </div>
 </form>
 </body>
 </html>
