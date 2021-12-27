@@ -5,59 +5,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>首页</title>
+    <link rel="stylesheet" href="demo2.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
     <script src="./jquery-3.6.0.js"></script>
-    <style>
-        img {
-            max-width: 200px;
-            height: auto;
-        }
-
-        a {
-            color: black;
-            text-decoration: none;
-        }
-    </style>
 </head>
 
 <body>
-<a href="./mypage.html">我的页面</a>
-<div class="userInfo_noLogin">
-    用户未登录
-    <button><a href="./login.html">登录</a></button>
-</div>
-<div class="userInfo_login">
-</div>
-<ul id="imageList">
-    <img src="" alt="" srcset="">
-</ul>
-<button id="beforePage">上一页</button>
-<button id="afterPage">下一页</button>
+    <a href="./mypage.html">我的页面</a>
+    <div class="userInfo_noLogin">
+        用户未登录
+        <button><a href="./login.html">登录</a></button>
+    </div>
+    <div class="userInfo_login">
+    </div>
+    <ul id="imageList">
+        <img src="" alt="" srcset="">
+    </ul>
+    <button class="layui-btn layui-btn-radius layui-btn-normal" id="beforePage">上一页</button>
+    <button class="layui-btn layui-btn-radius layui-btn-normal" id="afterPage">下一页</button>
 </body>
 <script>
     var ps = 1
-    var pn = 20
+    var pn = 21
     var isfirst = true
     var isLast
     let URL = ''
     var isLogin = false
-    $(document).ready(function () {
+    $(document).ready(function() {
             $.ajax({
-                url: URL + '/api/allphoto',
+                url: URL+ '/api/allphoto',
                 type: 'get',
                 dataType: 'json',
                 data: {
                     ps: ps,
                     pn: pn,
                 },
-                success: function (data) {
+                success: function(data) {
                     isLast = data.isLast
                     data.list.forEach(imgInfo => {
                         $('#imageList').append(
                             '<li class="imgList">\
-                            <img src="' + imgInfo[0] + '">\
+                            <img src="' + imgInfo[0] + '"><br>\
                             点赞数:<span>' + imgInfo[1] + '</span>\
-                            是否已经点赞:' + imgInfo[2] + '\
                             </li>')
                         if (imgInfo[2] == 'true') {
                             $('#imageList>li:last-child').append(
@@ -71,13 +61,13 @@
                         isfirst = false
                     }
                     if (isfirst) {
-                        $('#beforePage').attr('disabled', true)
+                        $('#beforePage').attr('class', 'layui-btn layui-btn-radius layui-btn-disabled').attr('disabled', true)
                     }
                     if (isLast) {
-                        $('#afterPage').attr('disabled', true)
+                        $('#beforePage').attr('class', 'layui-btn layui-btn-radius layui-btn-disabled').attr('disabled', true)
                     }
                 },
-                error: function (err) {
+                error: function(err) {
                     if (err.status == 403) {
                         console.log(err)
                     } else if (err.status == 422) {
@@ -90,10 +80,10 @@
                 }
             })
             $.ajax({
-                url: URL + '/userinfo',
+                url: URL+ '/userinfo',
                 type: 'get',
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     if (data.msg == 'OK') {
                         isLogin = true
                         $('.userInfo_login')
@@ -102,7 +92,7 @@
                         $('.userInfo_noLogin').css('display', 'none')
                     }
                 },
-                error: function (err) {
+                error: function(err) {
                     if (err.status == 403) {
                         console.log(err)
                     } else if (err.status == 422) {
@@ -115,7 +105,7 @@
                 }
             })
         },
-        $('#imageList').on("click", ".addLove", function () {
+        $('#imageList').on("click", ".addLove", function() {
             if ($(this).attr('class') == 'addLove unlove') {
                 let _this = $(this)
                 if (isLogin == true) {
@@ -127,14 +117,14 @@
                             'img': img
                         },
                         dataType: 'json',
-                        success: function (data) {
+                        success: function(data) {
                             if (data.code == 200 && data.msg == "点赞成功") {
                                 _this.attr('class', 'addLove love').attr('src', './img/love.svg')
                             } else {
                                 alert("点赞失败")
                             }
                         },
-                        error: function (err) {
+                        error: function(err) {
                             if (err.status == 403) {
                                 console.log(err)
                             } else if (err.status == 422) {
@@ -150,25 +140,24 @@
             }
         }),
 
-        $("#afterPage").click(function () {
+        $("#afterPage").click(function() {
             ps += 1;
             $('#imageList').empty()
             $.ajax({
-                url: URL + '/api/allphoto',
+                url: URL+ '/api/allphoto',
                 type: 'get',
                 dataType: 'json',
                 data: {
                     ps: ps,
                     pn: pn,
                 },
-                success: function (data) {
+                success: function(data) {
                     isLast = data.isLast
                     data.list.forEach(imgInfo => {
                         $('#imageList').append(
                             '<li class="imgList">\
-                            <img src="' + imgInfo[0] + '">\
+                            <img src="' + imgInfo[0] + '"><br>\
                             点赞数:<span>' + imgInfo[1] + '</span>\
-                            是否已经点赞:' + imgInfo[2] + '\
                             </li>')
                         if (imgInfo[2] == 'true') {
                             $('#imageList>li:last-child').append(
@@ -182,17 +171,17 @@
                         isfirst = false
                     }
                     if (isfirst) {
-                        $('#beforePage').attr('disabled', true)
+                        $('#beforePage').attr('class', 'layui-btn layui-btn-radius layui-btn-disabled').attr('disabled', true)
                     } else {
-                        $('#beforePage').attr('disabled', false)
+                        $('#beforePage').attr('class', 'layui-btn layui-btn-radius layui-btn-normal').attr('disabled', false)
                     }
                     if (isLast) {
-                        $('#afterPage').attr('disabled', true)
+                        $('#afterPage').attr('class', 'layui-btn layui-btn-radius layui-btn-disabled').attr('disabled', true)
                     } else {
-                        $('#afterPage').attr('disabled', false)
+                        $('#afterPage').attr('class', 'layui-btn layui-btn-radius layui-btn-normal').attr('disabled', false)
                     }
                 },
-                error: function (err) {
+                error: function(err) {
                     if (err.status == 403) {
                         console.log(err)
                     } else if (err.status == 422) {
@@ -205,25 +194,24 @@
                 }
             })
         }),
-        $("#beforePage").click(function () {
+        $("#beforePage").click(function() {
             ps -= 1;
             $('#imageList').empty()
             $.ajax({
-                url: URL + '/api/allphoto',
+                url: URL+ '/api/allphoto',
                 type: 'get',
                 dataType: 'json',
                 data: {
                     ps: ps,
                     pn: pn,
                 },
-                success: function (data) {
+                success: function(data) {
                     isLast = data.isLast
                     data.list.forEach(imgInfo => {
                         $('#imageList').append(
                             '<li class="imgList">\
-                            <img src="' + imgInfo[0] + '">\
+                            <img src="' + imgInfo[0] + '"><br>\
                             点赞数:<span>' + imgInfo[1] + '</span>\
-                            是否已经点赞:' + imgInfo[2] + '\
                             </li>')
                         if (imgInfo[2] == 'true') {
                             $('#imageList>li:last-child').append(
@@ -239,17 +227,17 @@
                         isfirst = true
                     }
                     if (isfirst) {
-                        $('#beforePage').attr('disabled', true)
+                        $('#beforePage').attr('class', 'layui-btn layui-btn-radius layui-btn-disabled').attr('disabled', true)
                     } else {
-                        $('#beforePage').attr('disabled', false)
+                        $('#beforePage').attr('class', 'layui-btn layui-btn-radius layui-btn-normal').attr('disabled', false)
                     }
                     if (isLast) {
-                        $('#afterPage').attr('disabled', true)
+                        $('#afterPage').attr('class', 'layui-btn layui-btn-radius layui-btn-disabled').attr('disabled', true)
                     } else {
-                        $('#afterPage').attr('disabled', false)
+                        $('#afterPage').attr('class', 'layui-btn layui-btn-radius layui-btn-normal').attr('disabled', false)
                     }
                 },
-                error: function (err) {
+                error: function(err) {
                     if (err.status == 403) {
                         console.log(err)
                     } else if (err.status == 422) {
@@ -262,6 +250,7 @@
                 }
             })
         })
+
     )
 
     //时间戳转换

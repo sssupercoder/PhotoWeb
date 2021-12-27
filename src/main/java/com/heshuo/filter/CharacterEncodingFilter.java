@@ -18,7 +18,7 @@ public class CharacterEncodingFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String uri = request.getRequestURI();
-        if (uri.endsWith(".html")){
+        if (uri.endsWith(".html") || uri.endsWith("login")||uri.endsWith("register")){
             servletRequest.setCharacterEncoding("utf-8");
             servletResponse.setCharacterEncoding("utf-8");
             servletResponse.setContentType("text/html;charset=utf-8");

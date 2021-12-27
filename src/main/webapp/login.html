@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="demo.css">
+    <title>登录</title>
 </head>
 <body>
-<form action="/login" method="post">
-    username:<input type="text" name="username">
-    password:<input type="password" name="password">
-    <input type="submit">
-    <input type="button" value="注册" onclick="javascrtpt:window.location.href='register.html'" >
+<form action="/login" method="post" class="form-wrapper">
+    <div class="input-wrapper">
+    <input type="text" name="username" placeholder="用户名" class="border-item" autocomplete="off">
+    </div>
+
+    <div class="border-wrapper">
+    <input type="password" name="password" placeholder="密码" class="border-item" autocomplete="off">
+    </div>
+
+    <div class="action">
+    <input type="submit" class="btn">
+    </div>
+
+    <div class="action">
+    <input type="button" value="注册" onclick="javascrtpt:window.location.href='register.html'" class="btn" >
+    </div>
 </form>
 <script>
 
